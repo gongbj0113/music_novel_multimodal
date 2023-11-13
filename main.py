@@ -96,7 +96,6 @@ model = BERTClassifier(model, dr_rate=0.5).to(device)
 
 no_decay = ['bias', 'LayerNorm.weight']
 
-# 최적화해야 할 parameter를 optimizer에게 알려야 함
 optimizer_grouped_parameters = [
     {'params': [p for n, p in model.named_parameters() if not any(nd in n for nd in no_decay)], 'weight_decay': 0.01},
     {'params': [p for n, p in model.named_parameters() if any(nd in n for nd in no_decay)], 'weight_decay': 0.0}
