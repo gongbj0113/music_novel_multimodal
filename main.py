@@ -22,7 +22,7 @@ device = torch.device("cuda:0")
 
 data_list = []
 
-for review, label in zip(map(lambda x: "value: " + str(x), range(100)), map(str, range(100))):
+for review, label in zip(map(lambda x: "value: " + str(x), range(100)), map(lambda x : str(x % 2), range(100))):
     data = []
     data.append(review)
     data.append(label)
@@ -50,7 +50,7 @@ class BERTDataset(Dataset):
 
 
 max_len = 64  # max seqence length
-batch_size = 64
+batch_size = 32
 warmup_ratio = 0.1
 num_epochs = 5
 max_grad_norm = 1
@@ -130,7 +130,7 @@ for e in range(num_epochs):
         token_ids = token_ids.long().to(device)
         segment_ids = segment_ids.long().to(device)
         valid_length = valid_length
-        print(segment_ids)
+        print(label)
         label = label.long().to(device)
 
         out = model(token_ids, valid_length, segment_ids)
@@ -158,4 +158,4 @@ for e in range(num_epochs):
     print("epoch {} test acc {}".format(e + 1, test_acc / (batch_id + 1)))
 
 PATH = '/content/'
-torch.save(model.state_dict(), PATH + 'naver_shopping.pt')
+torch.save(model.state_dict(), PATH + 'save.pt')
