@@ -1,0 +1,6 @@
+datasets
+transformers[torch]
+sentencepiece>=0.1.91
+scikit-learn
+onnxruntime==1.6.0
+git+https://git@github.com/SKTBrain/KoBERT.git@master
