@@ -1,2 +1,12 @@
 .cache/
 .idea/
+
+# pycache
+__pycache__/
+*.pyc
+
+# virtualenv
+venv/
+
+# torch save file
+*.pt
