@@ -10,3 +10,7 @@ venv/
 
 # torch save file
 *.pt
+*.pth
+*.mp3
+
+model/save/*

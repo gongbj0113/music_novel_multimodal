@@ -157,7 +157,7 @@ class TextKeywordClassifier:
         train, test = train_test_split(text_keyword_data, test_size=0.2, shuffle=True, random_state=0)
         
         warmup_ratio = 0.1
-        num_epochs = 100
+        num_epochs = 200
         max_grad_norm = 1
         log_interval = 200
         learning_rate = 5e-5

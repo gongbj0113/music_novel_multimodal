@@ -3,13 +3,13 @@ import pandas as pd
 
 MUSIC_PRESENTATION_DATA_PATH = 'data/csv/music_representation_text.csv'
 class MusicRepresentationData(Dataset):
-    def __init__(self, csv_file):
-        self.data = pd.read_csv(csv_file)
+    def __init__(self):
+        self.data = pd.read_csv(MUSIC_PRESENTATION_DATA_PATH)
 
     def __len__(self):
         return len(self.data)
 
     def __getitem__(self, idx):
-        text = self.data.loc[idx, 'text']
-        keyword = self.data.loc[idx, 'representation']
-        return text, keyword
+        music = self.data.iloc[idx]['music']
+        representation = self.data.iloc[idx]['representation']
+        return music, representation
