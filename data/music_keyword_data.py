@@ -2759,6 +2759,6 @@ for info in infos:
         print(f"https://media.bgmstore.net/mp3/{id}.mp3")
         response = requests.get(f"https://media.bgmstore.net/mp3/{id}.mp3")
         print(response.status_code)
-        with open(f"./resources/{keyword}_{idx}.mp3", 'wb') as file:
+        with open(f"data/music/{idx}.mp3", 'wb') as file:
             file.write(response.content)
             file.close()

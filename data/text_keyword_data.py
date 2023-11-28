@@ -10,7 +10,7 @@ class TextKeywordData(Dataset):
 
     def filter(self, keyword_indexer:KeywordIndexer):
         self.data = self.data[self.data['keyword'].isin(keyword_indexer.index_to_keyword)]
-
+        
     def __len__(self):
         return len(self.data)
 

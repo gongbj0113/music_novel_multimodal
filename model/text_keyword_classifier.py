@@ -137,7 +137,7 @@ class TextKeywordClassifier:
         self.model = BERTClassifier(self.model, num_classes=keyword_indexer.get_num_keywords(), dr_rate=0.5).to(self.device)
         self.loaded = False
 
-        self.max_len = 64
+        self.max_len = 512
         self.batch_size = 32
 
     def load(self):
@@ -157,7 +157,7 @@ class TextKeywordClassifier:
         train, test = train_test_split(text_keyword_data, test_size=0.2, shuffle=True, random_state=0)
         
         warmup_ratio = 0.1
-        num_epochs = 200
+        num_epochs = 100
         max_grad_norm = 1
         log_interval = 200
         learning_rate = 5e-5
@@ -249,6 +249,8 @@ class TextKeywordClassifier:
         plt.legend()
         plt.savefig('accuracy_graph.png')
         plt.show()
+
+        return test
 
     def predict(self, text) -> Optional[str]:
         """

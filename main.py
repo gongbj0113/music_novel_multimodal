@@ -59,8 +59,45 @@ def test_representation_generator_from_music():
     representation = generator.predict(music_path=music_path)
     print(music_path + " >> " + representation)
 
+def test_text_keyword_valid():
+    keyword_indexer = KeywordIndexer()
+    classifier = TextKeywordClassifier(keyword_indexer=keyword_indexer)
+
+    # train
+    text_keyword_data = TextKeywordData()
+    text_keyword_data.filter(keyword_indexer=keyword_indexer)
+    # classifier.train(text_keyword_data=text_keyword_data)
+
+    # predict
+    for i in range(100):
+        text, keyword = text_keyword_data[i]
+        predict = classifier.predict(text=text)
+        print(text + " >> " + keyword + " >> " + predict)
 
 if __name__ == '__main__':
-    test_text_keyword_classifier()
-    test_text_generator_from_representation()
-    test_representation_generator_from_music()
+    # test_text_keyword_classifier()
+    # test_text_generator_from_representation()
+    # test_representation_generator_from_music()
+
+    # test_text_keyword_valid()
+
+    
+    keyword_indexer = KeywordIndexer()
+    classifier = TextKeywordClassifier(keyword_indexer=keyword_indexer)
+
+    # train
+    text_keyword_data = TextKeywordData()
+    text_keyword_data.filter(keyword_indexer=keyword_indexer)
+    test_data = classifier.train(text_keyword_data=text_keyword_data)
+
+    # predict
+    texts = [
+        '나는 오늘 밥을 먹었다. 밥이 맛있었다. \n다음에도 또 먹고 싶다. 이것은 나의 일상이다.',
+    ]
+
+    for (text, keyword) in test_data:
+        output = classifier.predict(text=text)
+        print(text + " >> " + keyword + " >> " + output)
+
+    
+
