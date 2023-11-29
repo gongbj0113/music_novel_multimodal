@@ -2752,23 +2752,26 @@ import requests
 import os
 from typing import Optional
 
-for info in infos:
-    keyword = info["keyword"]
-    ids = info["ids"]
+# for info in infos:
+#     keyword = info["keyword"]
+#     ids = info["ids"]
     
-    for idx, id in enumerate(ids):
-        print(f"https://media.bgmstore.net/mp3/{id}.mp3")
-        response = requests.get(f"https://media.bgmstore.net/mp3/{id}.mp3")
-        print(response.status_code)
-        with open(f"data/music/{idx}.mp3", 'wb') as file:
-            file.write(response.content)
-            file.close()
+#     for idx, id in enumerate(ids):
+#         print(f"https://media.bgmstore.net/mp3/{id}.mp3")
+#         response = requests.get(f"https://media.bgmstore.net/mp3/{id}.mp3")
+#         print(response.status_code)
+#         with open(f"data/music/{idx}.mp3", 'wb') as file:
+#             file.write(response.content)
+#             file.close()
 
 class MusicKeyword:
     def download(self):
         for info in infos:
             keyword = info["keyword"]
             ids = info["ids"]
+
+            if not os.path.isdir("data/music"):
+                os.mkdir("data/music")
             
             for idx, id in enumerate(ids):
                 # Check if file exists
