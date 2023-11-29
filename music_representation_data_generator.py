@@ -18,15 +18,21 @@ def generate():
 
     music_representation_text_data = []
 
-    for text in text_data:
-        keyword = classifier.predict(text=text)
-        if keyword is None:
+
+    for i, text in enumerate(text_data):
+        try:
+            keyword = classifier.predict(text=text)
+            if keyword is None:
+                continue
+            english_keyword = keyword_indexer.transform_keyword_to_english(keyword)
+            if english_keyword is None:
+                continue
+            music_path = music_keyword.get_random_by_keyword(keyword=keyword)
+            representation = music_cap.predict(music_path=music_path)
+
+            print("Status: " + str(i) + " / " + str(len(text_data)))
+        except:
             continue
-        english_keyword = keyword_indexer.transform_keyword_to_english(keyword)
-        if english_keyword is None:
-            continue
-        music_path = music_keyword.get_random_by_keyword(keyword=keyword)
-        representation = music_cap.predict(music_path=music_path)
 
         music_representation_text_data.append((music_path, english_keyword + ", " + representation, text))
 

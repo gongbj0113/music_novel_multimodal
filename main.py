@@ -40,7 +40,7 @@ def train_all():
 
     print("Done")
 
-def run(music_path:str):
+def run(music_path):
     representation_generator = RepresentationGeneratorFromMusic()
     text_generator = TextGeneratorFromRepresentation()
 
