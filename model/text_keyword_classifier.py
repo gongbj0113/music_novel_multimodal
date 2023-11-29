@@ -137,7 +137,7 @@ class TextKeywordClassifier:
         self.model = BERTClassifier(self.model, num_classes=keyword_indexer.get_num_keywords(), dr_rate=0.5).to(self.device)
         self.loaded = False
 
-        self.max_len = 200
+        self.max_len = 150
         self.batch_size = 32
 
     def load(self):
