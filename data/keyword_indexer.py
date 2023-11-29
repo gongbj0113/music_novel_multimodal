@@ -11,6 +11,7 @@ class KeywordIndexer:
     def __init__(self) -> None:
         self.keyword_to_index: Dict[str, int] = {}
         self.index_to_keyword: List[str] = []
+        self.keyword_to_english: Dict[str, str] = {}
         self.read_csv(KEYWORD_DATA_PATH)
 
     def read_csv(self, file_path: str) -> None:
@@ -23,11 +24,9 @@ class KeywordIndexer:
         with open(file_path, 'r') as file:
             reader = csv.reader(file)
             for row in reader:
-                keywords = row[0].split(',')
-                for keyword in keywords:
-                    self.add_keyword(keyword)
+                self.add_keyword(row[0], row[1])
 
-    def add_keyword(self, keyword: str) -> None:
+    def add_keyword(self, keyword: str, english:str) -> None:
         """
         Adds a keyword to the index if it doesn't already exist.
 
@@ -38,6 +37,7 @@ class KeywordIndexer:
             index = len(self.index_to_keyword)
             self.keyword_to_index[keyword] = index
             self.index_to_keyword.append(keyword)
+            self.keyword_to_english[keyword] = english
 
     def transform_text_to_index(self, keyword: str) -> Optional[int]:
         """
@@ -75,5 +75,20 @@ class KeywordIndexer:
         """
         if index < len(self.index_to_keyword):
             return self.index_to_keyword[index]
+        else:
+            return None
+
+    def transform_keyword_to_english(self, keyword: str) -> Optional[str]:
+        """
+        Transforms a keyword to its corresponding english.
+
+        Args:
+            keyword (str): The keyword to transform.
+
+        Returns:
+            Optional[str]: The english of the keyword, or None if the keyword is not found.
+        """
+        if keyword in self.keyword_to_english:
+            return self.keyword_to_english[keyword]
         else:
             return None

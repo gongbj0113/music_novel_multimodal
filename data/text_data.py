@@ -3,7 +3,7 @@ import pandas as pd
 
 TEXT_DATA_PATH = 'data/csv/text_data.csv'
 
-class RepresentationTextData(Dataset):
+class TextData(Dataset):
     def __init__(self):
         self.data = pd.read_csv(TEXT_DATA_PATH)
 
