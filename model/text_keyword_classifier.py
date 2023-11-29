@@ -157,7 +157,7 @@ class TextKeywordClassifier:
         train, test = train_test_split(text_keyword_data, test_size=0.2, shuffle=True, random_state=0)
         
         warmup_ratio = 0.1
-        num_epochs = 100
+        num_epochs = 200
         max_grad_norm = 1
         log_interval = 200
         learning_rate = 5e-5
@@ -238,6 +238,11 @@ class TextKeywordClassifier:
             print("epoch {} test acc {}".format(e + 1, test_acc / (batch_id + 1)))
 
         self.loaded = True
+        # If model/save directory does not exist, create it
+        import os
+        if not os.path.exists('model/save'):
+            os.makedirs('model/save')
+        # Save the model
         torch.save(self.model.state_dict(), 'model/save/text_keyword_classifier.pt')
 
         import matplotlib.pyplot as plt

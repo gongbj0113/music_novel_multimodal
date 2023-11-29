@@ -8,6 +8,8 @@ from data.representation_text import RepresentationTextData
 from model.representation_generator_from_music import RepresentationGeneratorFromMusic
 from data.music_representation_data import MusicRepresentationData
 
+from data.music_keyword import MusicKeyword
+
 def test_text_keyword_classifier():
     keyword_indexer = KeywordIndexer()
     classifier = TextKeywordClassifier(keyword_indexer=keyword_indexer)
@@ -73,6 +75,24 @@ def test_text_keyword_valid():
         text, keyword = text_keyword_data[i]
         predict = classifier.predict(text=text)
         print(text + " >> " + keyword + " >> " + predict)
+
+
+
+def train_all():
+    # Train Text keyword classifier
+    keyword_indexer = KeywordIndexer()
+    classifier = TextKeywordClassifier(keyword_indexer=keyword_indexer)
+
+    text_keyword_data = TextKeywordData()
+    text_keyword_data.filter(keyword_indexer=keyword_indexer)
+    classifier.train(text_keyword_data=text_keyword_data)
+
+    # generate music_representation_data
+    music_keyword = MusicKeyword()
+    music_keyword.download()
+
+    
+
 
 if __name__ == '__main__':
     # test_text_keyword_classifier()

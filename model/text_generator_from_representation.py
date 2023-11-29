@@ -85,6 +85,12 @@ class TextGeneratorFromRepresentation:
                     print("epoch {} batch id {} loss {}".format(epoch + 1, batch_id + 1, loss.data.cpu().numpy()))
 
         # 모델 저장
+        # If model/save directory does not exist, create it
+        import os
+        if not os.path.exists('model/save'):
+            os.makedirs('model/save')
+        # Save the model
+
         model_path = "model/save/text_generator"
         self.model.save_pretrained(model_path)
         self.tokenizer.save_pretrained(model_path)

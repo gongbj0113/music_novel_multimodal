@@ -2749,7 +2749,8 @@ categories = [
 ]
 
 import requests
-
+import os
+from typing import Optional
 
 for info in infos:
     keyword = info["keyword"]
@@ -2762,3 +2763,48 @@ for info in infos:
         with open(f"data/music/{idx}.mp3", 'wb') as file:
             file.write(response.content)
             file.close()
+
+class MusicKeyword:
+    def download(self):
+        for info in infos:
+            keyword = info["keyword"]
+            ids = info["ids"]
+            
+            for idx, id in enumerate(ids):
+                # Check if file exists
+                if os.path.isfile(f"data/music/{idx}.mp3"):
+                    continue
+
+                print(f"https://media.bgmstore.net/mp3/{id}.mp3")
+                response = requests.get(f"https://media.bgmstore.net/mp3/{id}.mp3")
+                print(response.status_code)
+                with open(f"data/music/{idx}.mp3", 'wb') as file:
+                    file.write(response.content)
+                    file.close()
+
+    def get_random_by_keyword(self, keyword) -> Optional[str]:
+        import random
+
+        ids = []
+        for info in infos:
+            if info["keyword"] == keyword:
+                ids = info["ids"]
+                break
+
+        if len(ids) == 0:
+            return None
+        
+        id = random.choice(ids)
+        return f"data/music/{id}.mp3"
+    
+    def get_random(self) -> Optional[str]:
+        import random
+        import glob
+
+        files = glob.glob("data/music/*.mp3")
+
+        if len(files) == 0:
+            return None
+        
+        file = random.choice(files)
+        return file

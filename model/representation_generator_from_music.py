@@ -99,6 +99,11 @@ class RepresentationGeneratorFromMusic:
                     print("epoch {} batch id {} loss {}".format(epoch + 1, batch_id + 1, loss.data.cpu().numpy()))
         
         # save model
+        # If model/save directory does not exist, create it
+        import os
+        if not os.path.exists('model/save'):
+            os.makedirs('model/save')
+        # Save the model
         model_path = "model/save/music_cap_trained.pth"
         torch.save(self.model.state_dict(), model_path)
 
