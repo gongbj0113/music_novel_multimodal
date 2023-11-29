@@ -15,7 +15,8 @@ def generate():
 
     text_data = TextData()
     music_cap = RepresentationGeneratorFromMusic()
-
+    music_cap.loaded = True
+    
     music_representation_text_data = []
 
 

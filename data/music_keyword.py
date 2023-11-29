@@ -2778,7 +2778,7 @@ class MusicKeyword:
                 if os.path.isfile(f"data/music/{id}.mp3"):
                     continue
 
-                print(f"https://media.bgmstore.net/mp3/{id}.mp3")
+                print(f"https://media.bgmstore.net/mp3/{id}.mp3", flush=True)
                 response = requests.get(f"https://media.bgmstore.net/mp3/{id}.mp3")
                 print(response.status_code)
                 with open(f"data/music/{id}.mp3", 'wb') as file:
