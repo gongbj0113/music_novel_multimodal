@@ -56,7 +56,7 @@ class TextGeneratorFromRepresentation:
         data_loader = DataLoader(dataset, batch_size=2, shuffle=True)
 
         optimizer = torch.optim.AdamW(self.model.parameters(), lr=5e-5)
-        num_epochs = 50
+        num_epochs = 30
         warmup_ratio = 0.1
         log_interval = 200
         max_grad_norm = 1
