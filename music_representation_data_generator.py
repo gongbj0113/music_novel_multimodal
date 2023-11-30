@@ -13,6 +13,8 @@ def generate():
     music_keyword = MusicKeyword()
     music_keyword.download()
 
+    print("Generate Music representation data", flush=True)
+
     text_data = TextData()
     music_cap = RepresentationGeneratorFromMusic()
     music_cap.loaded = True
@@ -27,6 +29,7 @@ def generate():
                 continue
             english_keyword = keyword_indexer.transform_keyword_to_english(keyword)
             if english_keyword is None:
+                print("Keyword not found: " + keyword)
                 continue
             music_path = music_keyword.get_random_by_keyword(keyword=keyword)
             representation = music_cap.predict(music_path=music_path)

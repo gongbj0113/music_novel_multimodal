@@ -2787,12 +2787,34 @@ class MusicKeyword:
 
     def get_random_by_keyword(self, keyword) -> Optional[str]:
         import random
+        """
+        매우 부정	우울, 심각, 좌절, 슬픔, 공포
+        부정	애잔, 쓸쓸, 긴장, 한심, 아련, 초조, 긴박, 애절
+        보통	일상, 비장, 장엄, 고전, 진지, 격렬, 몽환, 신비, 당당. 클럽, 웅장
+        긍정	잔잔, 고요,  순수, 훈훈, 희망, 여유, 추억, 엽기, 유머, 동심, 발랄, 달달
+        매우 긍정	따뜻, 신남, 평화, 감동, 활기, 흥함, 즐거움, 행복, 경쾌
+        """
 
+        keyword_transform = {
+            "매우 부정": ["우울", "심각", "좌절", "슬픔", "공포"],
+            "부정": ["애잔", "쓸쓸", "긴장", "한심", "아련", "초조", "긴박", "애절"],
+            "보통": ["일상", "비장", "장엄", "고전", "진지", "격렬", "몽환", "신비", "당당", "클럽", "웅장"],
+            "긍정": ["잔잔", "고요", "순수", "훈훈", "희망", "여유", "추억", "엽기", "유머", "동심", "발랄", "달달"],
+            "매우 긍정": ["따뜻", "신남", "평화", "감동", "활기", "흥함", "즐거움", "행복", "경쾌"],
+        }
+
+        ids = []
+        for info in infos:
+            if info["keyword"] in keyword_transform[keyword]:
+                ids += info["ids"]
+
+        """
         ids = []
         for info in infos:
             if info["keyword"] == keyword:
                 ids = info["ids"]
-                break
+                break  
+        """
 
         if len(ids) == 0:
             return None
