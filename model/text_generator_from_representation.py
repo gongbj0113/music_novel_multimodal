@@ -25,7 +25,7 @@ class KogptDataset(Dataset):
             data[0] + " > " + data[1] for data in representation_text_dataset
         ] # representation + text
         
-        self.datas = tokenizer.batch_encode_plus(lines, add_special_tokens=True, max_length=block_size)["input_ids"]
+        self.datas = tokenizer.batch_encode_plus(lines, add_special_tokens=True, padding="max_length", max_length=block_size, truncation=True)["input_ids"]
 
     def __len__(self):
         return len(self.datas)
