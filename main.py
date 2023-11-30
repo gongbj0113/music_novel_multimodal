@@ -54,6 +54,6 @@ if __name__ == '__main__':
     # train_all()
 
     # test.test_text_keyword_classifier()
-    test.test_music_representation_data_generator()
+    # test.test_music_representation_data_generator()
     # test.test_representation_generator_from_music()
-    # test.test_text_generator_from_representation()
+    test.test_text_generator_from_representation()

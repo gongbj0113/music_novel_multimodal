@@ -106,7 +106,7 @@ class TextGeneratorFromRepresentation:
                            pad_token_id=self.tokenizer.pad_token_id,
                            eos_token_id=self.tokenizer.eos_token_id,
                            bos_token_id=self.tokenizer.bos_token_id,
-                           use_cache=True, truncation=True)
+                           use_cache=True)
         
         result = self.tokenizer.decode(output[0], skip_special_tokens=True)
 
