@@ -96,7 +96,7 @@ class RepresentationGeneratorFromMusic:
                 scheduler.step()
 
                 if batch_id % log_interval == 0:
-                    print("epoch {} batch id {} loss {}".format(epoch + 1, batch_id + 1, loss.data.cpu().numpy()))
+                    print("epoch {} batch id {} loss {}".format(epoch + 1, batch_id + 1, loss.data.cpu().numpy()), flush=True)
         
         # save model
         # If model/save directory does not exist, create it
