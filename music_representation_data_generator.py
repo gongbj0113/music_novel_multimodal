@@ -34,7 +34,7 @@ def generate():
             music_path = music_keyword.get_random_by_keyword(keyword=keyword)
             representation = music_cap.predict(music_path=music_path)
 
-            print("Status: " + str(i) + " / " + str(len(text_data)))
+            print("Status: " + str(i) + " / " + str(len(text_data)), flush=True)
         except:
             continue
 

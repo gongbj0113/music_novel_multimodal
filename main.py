@@ -20,17 +20,17 @@ def train_all():
 
     text_keyword_data = TextKeywordData()
     text_keyword_data.filter(keyword_indexer=keyword_indexer)
-    classifier.train(text_keyword_data=text_keyword_data)
+    # classifier.train(text_keyword_data=text_keyword_data)
 
     # Generate Music representation data
     print("Generate Music representation data")
-    mr_data_gen.generate()
+    # mr_data_gen.generate()
 
     # Train Text generator from representation
     print("Train Text generator from representation")
     representation_text_data = RepresentationTextData()
     generator = TextGeneratorFromRepresentation()
-    generator.train(representation_text_data=representation_text_data)
+    # generator.train(representation_text_data=representation_text_data)
 
     # Train Representation generator from music
     print("Train Representation generator from music")
@@ -46,6 +46,8 @@ def run(music_path):
 
     representation = representation_generator.predict(music_path=music_path)
     text = text_generator.predict(representation=representation)
+
+    print(text)
 
     return text
 

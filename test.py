@@ -17,7 +17,7 @@ def test_text_keyword_classifier():
     # train
     text_keyword_data = TextKeywordData()
     text_keyword_data.filter(keyword_indexer=keyword_indexer)
-    test_data = classifier.train(text_keyword_data=text_keyword_data)
+    # test_data = classifier.train(text_keyword_data=text_keyword_data)
 
     # predict
     texts = [
@@ -34,9 +34,12 @@ def test_text_keyword_classifier():
     ]
 
 
-    for (text, keyword) in test_data:
+    '''
+      for (text, keyword) in test_data:
         output = classifier.predict(text=text)
         print(text + " >> " + keyword + " >> " + output)
+    '''
+  
 
     for text in texts:
         keywords = classifier.predict(text=text)

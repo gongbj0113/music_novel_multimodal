@@ -15,6 +15,9 @@ from torch.utils.data import Dataset, DataLoader
 from transformers.optimization import get_cosine_schedule_with_warmup
 
 # 데이터셋 클래스 정의
+def make_prompt(representation, text):
+    return "[rps]" + representation + "\n[txt]" + text
+
 class KogptDataset(Dataset):
     def __init__(self, representation_text_dataset, tokenizer, block_size):
         self.tokenizer = tokenizer
@@ -22,13 +25,13 @@ class KogptDataset(Dataset):
 
         # 데이터 로드 및 전처리
         lines = [
-            data[0] + " > " + data[1] for data in representation_text_dataset
+            make_prompt(data[0], data[1]) for data in representation_text_dataset
         ] # representation + text
         
         self.datas = tokenizer.batch_encode_plus(lines, add_special_tokens=True, padding="max_length", max_length=block_size, truncation=True)["input_ids"]
 
     def __len__(self):
-        return len(self.datas)
+        return 500 # len(self.datas)
 
     def __getitem__(self, i):
         return torch.tensor(self.datas[i], dtype=torch.long)
@@ -52,13 +55,13 @@ class TextGeneratorFromRepresentation:
 
     def train(self, representation_text_data):
         # 데이터셋 및 DataLoader 준비
-        dataset = KogptDataset(representation_text_data, self.tokenizer, block_size=128)
-        data_loader = DataLoader(dataset, batch_size=2, shuffle=True)
+        dataset = KogptDataset(representation_text_data, self.tokenizer, block_size=600)
+        data_loader = DataLoader(dataset, batch_size=4, shuffle=True)
 
         optimizer = torch.optim.AdamW(self.model.parameters(), lr=5e-5)
-        num_epochs = 30
+        num_epochs = 40
         warmup_ratio = 0.1
-        log_interval = 200
+        log_interval = 50
         max_grad_norm = 1
         
         t_total = len(data_loader) * num_epochs
@@ -84,6 +87,17 @@ class TextGeneratorFromRepresentation:
                 if batch_id % log_interval == 0:
                     print("epoch {} batch id {} loss {}".format(epoch + 1, batch_id + 1, loss.data.cpu().numpy()), flush=True)
 
+            if epoch % 10 == 0:
+                # 모델 저장
+                # If model/save directory does not exist, create it
+                import os
+                if not os.path.exists('model/save'):
+                    os.makedirs('model/save')
+                # Save the model
+                
+                model_path = "model/save/text_generator_temp"
+                self.model.save_pretrained(model_path)
+                self.tokenizer.save_pretrained(model_path)
         # 모델 저장
         # If model/save directory does not exist, create it
         import os
@@ -101,11 +115,12 @@ class TextGeneratorFromRepresentation:
         if not self.loaded:
             self.load()
 
-        input_ids = self.tokenizer.encode(representation + " > ", return_tensors="pt").to(self.device)
-        output = self.model.generate(input_ids, max_length=128, repetition_penalty=2.0,
+        input_ids = self.tokenizer.encode(make_prompt(representation, ""), return_tensors="pt").to(self.device)
+        output = self.model.generate(input_ids, max_length=600, repetition_penalty=2.0,
                            pad_token_id=self.tokenizer.pad_token_id,
                            eos_token_id=self.tokenizer.eos_token_id,
                            bos_token_id=self.tokenizer.bos_token_id,
+                           temperature=0.7, do_sample=True,
                            use_cache=True)
         
         result = self.tokenizer.decode(output[0], skip_special_tokens=True)
